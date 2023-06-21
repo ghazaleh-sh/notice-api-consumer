@@ -1,0 +1,29 @@
+version: '3.3'
+services:
+  notice-api-consumer:
+    image: repo.sadad.co.ir/repository/baam-docker-registry/notice-api-consumer:BUILD_NUMBER
+    container_name: notice-api-consumer
+    hostname: notice-api-consumer
+    networks:
+      neo-baam:
+        aliases:
+          - notice-api-consumer
+    ports:
+      - 8521:8521
+      - 1715:1715
+    volumes:
+    - /opt/configs/notice-api-consumer:/opt/configs/notice-api-consumer
+    - /var/log/notice-api-consumer:/var/log/notice-api-consumer
+    tty : true
+    extra_hosts:
+      - config-srv:192.168.53.73
+    environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      - JVM_OPTS=-Dfile.encoding=UTF8
+    working_dir: /
+    build : .
+    restart : always
+    command: [ "/usr/bin/java", "-jar", "/notice-api-consumer-0.0.1-SNAPSHOT.jar" ]
+networks:
+  neo-baam:
+    driver: bridge

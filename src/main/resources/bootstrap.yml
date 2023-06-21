@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: notice-api-consumer,notice-api-security
+  cloud:
+    config:
+      uri: http://config-srv:8888
